@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Cribl Cloud Helper",
+  "version": "1.0",
+  "description": "Helper utilities for Cribl Cloud",
+  "icons": {
+    "16": "images/cribl-16.png",
+    "32": "images/cribl-32.png",
+    "48": "images/cribl-48.png",
+    "128": "images/cribl-128.png"
+  },
+  "content_scripts": [
+    {
+        "js": ["scripts/content.js"],
+        "run_at": "document_end",
+        "matches": [
+            "https://*.cribl.cloud/*"
+        ]
+    }
+  ],
+  "permissions": [
+    "storage"
+  ]
+}
