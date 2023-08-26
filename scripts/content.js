@@ -66,6 +66,9 @@ var titleObserver = new MutationObserver(function (mutations) {
         return;
     }
 
+    // Ignore known false positives
+    if (['cribl'].indexOf(orgIdMatch[1]) > -1) { return }
+
     // Get name from storage and set document title
     chrome.storage.local.get(["organizationMapping"]).then((result) => {
         try {
@@ -83,7 +86,7 @@ typeof chrome.app !== "undefined";
 // Handle different Cribl Cloud urls
 if (/^(?:main-(\S+?))|(?:manage)\.cribl.cloud/.test(location.hostname)) {
     titleObserver.observe(targetNodeHtml, config);
-} else if (location.hostname.endsWith('cribl.cloud') && location.pathname == "/") {
+} else if (/.cribl\.cloud$/.test(location.hostname) && location.pathname == "/") {
     titleObserver.observe(targetNodeHtml, config);
 } else {
     portalObserver.observe(targetNodeHtml, config);
