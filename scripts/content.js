@@ -34,7 +34,7 @@ function storeOrganizationIds() {
     // If array has content, update storage
     if (organizationInfo.length > 0) {
         chrome.storage.local.set({ organizationMapping: organizationInfo }).then(() => {
-            console.log({ organizationMapping: organizationInfo });
+            console.info({ organizationMapping: organizationInfo });
         });
     }
 
@@ -72,7 +72,7 @@ var titleObserver = new MutationObserver(function (mutations) {
             const orgInformation = result["organizationMapping"].find((organization) => organization["organizationId"] == orgIdMatch[1]);
             document.title = `Cribl Cloud - ${orgInformation['organizationName']}`
         } catch (e) {
-            console.log(`Org ID Not Found: ${orgIdMatch[1]}`)
+            console.info(`Org ID Not Found: ${orgIdMatch}`)
         }
     });
 })
