@@ -10,12 +10,10 @@ function storeOrganizationInformation(message) {
     // If array has content, update storage
     if (organizationInfo.length > 0) {
         chrome.storage.local.set({ organizationMapping: organizationInfo }).then(() => {
+            console.log("Successfully stored organization info")
             console.info({ organizationMapping: organizationInfo });
         });
     }
-
-    console.log("Successfully stored organiation info")
-    console.log(organizationInfo)
 }
 
 function tabUpdatedListener() {
@@ -34,18 +32,18 @@ function tabUpdatedListener() {
 
         // Find Org ID from URL. Locations differ based on hostname
         if (/^https:\/\/main/.test(activeTab.url)) {
-            orgIdMatch = activeTab.url.match(/main-(\S+?).cribl.cloud/)
+            // PATTERN: https://main-(INSTANCE ID).cribl.cloud
+            orgIdMatch = activeTab.url.match(/main-(\S+?)\.cribl\.cloud/)
         } else if (/^https:\/\/manage/.test(activeTab.url)) {
-            orgIdMatch = location.pathname.match(/\/([^\/]+)/)
-        } else if (activeTab.url.endsWith('cribl.cloud/')) {
-            orgIdMatch = activeTab.url.match(/^([^\.]+)\./)
+            // PATTERN: https://manage.cribl.cloud/(INSTANCE ID)
+            orgIdMatch = activeTab.url.match(/https:\/\/manage\.cribl\.cloud\/?([^\?\/]+)/)
+        } else if (/^https:\/\/([^\.]+\-[^\.]+)\.cribl\.cloud/.test(activeTab.url)) {
+            // PATTERN: https://(INSTANCE ID).cribl.cloud/
+            orgIdMatch = activeTab.url.match(/^https:\/\/([^\.]+\-[^\.]+)\.cribl\.cloud/)
         } else {
             // No OrgID found, return.
             return;
         }
-
-        // Ignore known false positives
-        if (['cribl'].indexOf(orgIdMatch[1]) > -1) { return }
 
         // Get name from storage and set document title
         chrome.storage.local.get(["organizationMapping"]).then((result) => {
@@ -58,9 +56,8 @@ function tabUpdatedListener() {
                 });
 
             } catch (e) {
-                console.info(`Org ID Not Found: ${orgIdMatch}`)
+                console.info(`Org ID Not Found: ${orgIdMatch} for URL: ${activeTab.url}`)
             }
         });
-
     });
 }
