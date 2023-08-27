@@ -52,11 +52,11 @@ function tabUpdatedListener() {
             try {
                 const orgInformation = result["organizationMapping"].find((organization) => organization["organizationId"] == orgIdMatch[1]);
                 chrome.scripting.executeScript({
-                    target: {tabId: activeTab.id},
+                    target: { tabId: activeTab.id },
                     func: setTitle,
                     args: [orgInformation["organizationName"]]
                 });
-                
+
             } catch (e) {
                 console.info(`Org ID Not Found: ${orgIdMatch}`)
             }

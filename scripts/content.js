@@ -16,11 +16,11 @@ var portalObserver = new MutationObserver(function (mutations) {
 
         organizations.forEach(organization => {
             const organizationName = organization.querySelector("div > div.ant-col.organizationbox-module--title--LcgJH > h2").textContent;
-    
+
             const organiationIdString = organization.querySelector("div > div.ant-col.organizationbox-module--title--LcgJH > span").textContent;
             const organizationIdMatch = organiationIdString.match(/ID: (.*)/)
             const organizationId = organizationIdMatch[1];
-    
+
             // If ID and Name are found, add to array.
             if (organizationId && organizationName) {
                 organizationInfo.push({
@@ -28,7 +28,7 @@ var portalObserver = new MutationObserver(function (mutations) {
                     "organizationName": organizationName
                 });
             }
-    
+
         })
 
         chrome.runtime.sendMessage(organizationInfo)
