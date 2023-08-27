@@ -38,9 +38,6 @@ var portalObserver = new MutationObserver(function (mutations) {
     }
 })
 
-// Prevents error messages indicating extension context invalidated due to redirects/upgrades.
-typeof chrome.app !== "undefined";
-
 // Handle different Cribl Cloud urls
 if (/^(?:main-(\S+?))|(?:manage)\.cribl.cloud/.test(location.hostname)) {
     chrome.runtime.onMessage.addListener(function (msg, sender, response) {
