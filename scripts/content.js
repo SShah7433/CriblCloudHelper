@@ -39,14 +39,14 @@ var portalObserver = new MutationObserver(function (mutations) {
 })
 
 // Handle different Cribl Cloud urls
-if (/^(?:main-(\S+?))|(?:manage)\.cribl.cloud/.test(location.hostname)) {
+if (/^(?:main-(\S+?))|(?:manage)\.cribl\.cloud/.test(location.hostname)) {
     chrome.runtime.onMessage.addListener(function (msg, sender, response) {
         document.title = msg;
     });
-} else if (/.cribl\.cloud$/.test(location.hostname) && location.pathname == "/") {
+} else if (/\.cribl\.cloud$/.test(location.hostname) && location.pathname == "/") {
     chrome.runtime.onMessage.addListener(function (msg, sender, response) {
         document.title = msg;
     });
-} else {
+} else if (/portal\.cribl\.cloud/.test(location.hostname)) {
     portalObserver.observe(targetNodeHtml, configHtml);
 }
