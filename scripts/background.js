@@ -1,4 +1,3 @@
-
 chrome.tabs.onUpdated.addListener(tabUpdatedListener);
 chrome.runtime.onMessage.addListener(storeOrganizationInformation);
 
@@ -17,11 +16,6 @@ function storeOrganizationInformation(message) {
 }
 
 function tabUpdatedListener() {
-
-    function setTitle(organization) {
-        document.title = `Cribl Cloud - ${organization}`
-    }
-
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         // since only one tab should be active and in the current window at once
         // the return variable should only have one entry
@@ -49,12 +43,7 @@ function tabUpdatedListener() {
         chrome.storage.local.get(["organizationMapping"]).then((result) => {
             try {
                 const orgInformation = result["organizationMapping"].find((organization) => organization["organizationId"] == orgIdMatch[1]);
-                chrome.scripting.executeScript({
-                    target: { tabId: activeTab.id },
-                    func: setTitle,
-                    args: [orgInformation["organizationName"]]
-                });
-
+                chrome.tabs.sendMessage(activeTab.id, `Cribl Cloud - ${orgInformation["organizationName"]}`)
             } catch (e) {
                 console.info(`Org ID Not Found: ${orgIdMatch} for URL: ${activeTab.url}`)
             }
