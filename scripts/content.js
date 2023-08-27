@@ -38,15 +38,17 @@ var portalObserver = new MutationObserver(function (mutations) {
     }
 })
 
+function listenForMessages() {
+    chrome.runtime.onMessage.addListener(function (msg, sender, response) {
+        document.title = msg;
+    });
+}
+
 // Handle different Cribl Cloud urls
-if (/^(?:main-(\S+?))|(?:manage)\.cribl\.cloud/.test(location.hostname)) {
-    chrome.runtime.onMessage.addListener(function (msg, sender, response) {
-        document.title = msg;
-    });
-} else if (/\.cribl\.cloud$/.test(location.hostname) && location.pathname == "/") {
-    chrome.runtime.onMessage.addListener(function (msg, sender, response) {
-        document.title = msg;
-    });
+if (/^(?:main-(\S+?))|(?:manage)|(?:[^\.]+\-[^\.]+)\.cribl\.cloud/.test(location.hostname)) {
+    listenForMessages()
 } else if (/portal\.cribl\.cloud/.test(location.hostname)) {
     portalObserver.observe(targetNodeHtml, configHtml);
+} else if (/\.cribl\.cloud/.test(location.hostname) && ["/", "/logout"].indexOf(location.pathname) == -1) {
+    listenForMessages()
 }
