@@ -1,0 +1,22 @@
+name: Automated Build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: browser-actions/setup-chrome@v1
+      - run: echo ${PRIVATE_KEY} | base64 -d > /home/runner/work/CriblCloudTabRenamer/CriblCloudTabRenamer.key
+        env:
+          PRIVATE_KEY: ${{ secrets.CRIBLCLOUDTABRENAMER_PRIVKEY }}
+      - run: chrome --pack-extension=$GITHUB_WORKSPACE --pack-extension-key=/home/runner/work/CriblCloudTabRenamer/CriblCloudTabRenamer.key
+      - uses: actions/upload-artifact@v3
+        with:
+          name: CriblCloudTabRenamer.crx
+          path: /home/runner/work/CriblCloudTabRenamer/CriblCloudTabRenamer.crx
+
