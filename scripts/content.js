@@ -49,5 +49,4 @@ if (/^(?:main-(\S+?))|(?:manage)\.cribl.cloud/.test(location.hostname)) {
     });
 } else {
     portalObserver.observe(targetNodeHtml, configHtml);
-    chrome.runtime.se
 }
