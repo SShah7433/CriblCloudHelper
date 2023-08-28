@@ -13,10 +13,10 @@ This Google Chrome extension will update tab names with the Alias shown in the o
 ### Google Chrome
 Chrome does not allow packaged extensions that are not published to the Chrome Web Store to be installed on macOS or Windows. For this reason, a unpacked extension must be installed.
 
-1. Download the crx file from the GitHub Actions workflow. Extract the zip file.
+1. Download the artifacts for Google Chrome from the GitHub Actions workflow. Extract the zip file.
 2. Open extensions page in your browser and enable the toggle for "Developer mode".
-3. Drag and drop the crx file.
-4. Follow prompts to complete install process.
+3. Click "Load Unpacked".
+4. Select the folder extracted in step 1.
 
 ### Firefox
 
