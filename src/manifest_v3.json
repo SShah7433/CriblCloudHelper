@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Cribl Cloud Tab Renamer",
-  "version": "1.1",
+  "version": "1.2",
   "description": "Renames Tabs in Cribl Cloud",
   "icons": {
     "16": "images/cribl-16.png",
