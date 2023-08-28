@@ -14,9 +14,11 @@ jobs:
       - run: echo ${PRIVATE_KEY} | base64 -d > /home/runner/work/CriblCloudTabRenamer/CriblCloudTabRenamer.key
         env:
           PRIVATE_KEY: ${{ secrets.CRIBLCLOUDTABRENAMER_PRIVKEY }}
-      - run: chrome --pack-extension=${GITHUB_WORKSPACE}/src --pack-extension-key=/home/runner/work/CriblCloudTabRenamer/CriblCloudTabRenamer.key
+      - run: |
+          chrome --pack-extension=${GITHUB_WORKSPACE}/src --pack-extension-key=/home/runner/work/CriblCloudTabRenamer/CriblCloudTabRenamer.key
+          mv src.crx CriblCloudTabRenamer.crx
       - uses: actions/upload-artifact@v3
         with:
           name: CriblCloudTabRenamer.crx
-          path: src.crx
+          path: CriblCloudTabRenamer.crx
 
