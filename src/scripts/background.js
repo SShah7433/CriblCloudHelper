@@ -41,10 +41,10 @@ function tabUpdatedListener() {
         if (/^https:\/\/main/.test(activeTab.url)) {
             // PATTERN: https://main-(INSTANCE ID).cribl.cloud
             orgIdMatch = activeTab.url.match(/main-(\S+?)\.cribl\.cloud/)
-        } else if (/^https:\/\/manage/.test(activeTab.url) && !activeTab.url.endsWith("/logout")) {
+        } else if (/^https:\/\/manage\.cribl\.cloud\/?([^\?\/=]+)/.test(activeTab.url) && !activeTab.url.endsWith("/logout")) {
             // PATTERN: https://manage.cribl.cloud/(INSTANCE ID)
             // Avoids logout URL pattern
-            orgIdMatch = activeTab.url.match(/https:\/\/manage\.cribl\.cloud\/?([^\?\/]+)/)
+            orgIdMatch = activeTab.url.match(/^https:\/\/manage\.cribl\.cloud\/?([^\?\/=]+)/)
         } else if (/^https:\/\/([^\.]+\-[^\.]+)\.cribl\.cloud/.test(activeTab.url)) {
             // PATTERN: https://(INSTANCE ID).cribl.cloud/
             orgIdMatch = activeTab.url.match(/^https:\/\/([^\.]+\-[^\.]+)\.cribl\.cloud/)
