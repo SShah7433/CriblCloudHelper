@@ -13,19 +13,17 @@ This Google Chrome extension will update tab names with the Alias shown in the o
 ### Google Chrome
 Chrome does not allow packaged extensions that are not published to the Chrome Web Store to be installed on macOS or Windows. For this reason, a unpacked extension must be installed.
 
-1. Clone this repository to a local folder on your computer. Navigate to the `src` folder.
-2. Copy `manifest_v3.json` with a name of `manifest.json` to the same directory.
-3. Open extensions page in your browser and enable the toggle for "Developer mode"
-4. Click "Load Unpacked"
-5. Select the `src` folder from the folder into which you cloned this repository.
+1. Download the artifacts for Google Chrome from the GitHub Actions workflow. Extract the zip file.
+2. Open extensions page in your browser and enable the toggle for "Developer mode".
+3. Click "Load Unpacked".
+4. Select the folder extracted in step 1.
 
 ### Firefox
 
-1. Clone this repository to a local folder on your computer. Navigate to the `src` folder.
-2. Copy `manifest_v2.json` with a name of `manifest.json` to the same directory.
-3. Open the Add-On Manager, click the gear, and select **Debug Add-ons**
-4. Click **Load Temporary Add-on...**
-5. Select the `manifest.json` from the cloned repository.
+1. Download the artifacts for Google Chrome from the GitHub Actions workflow. Extract the zip file.
+2. Open the Add-On Manager, click the gear, and select **Debug Add-ons**.
+3. Click **Load Temporary Add-on...**.
+4. Select the `manifest.json` from the folder extracted in step 1.
 
 
 ## Privacy
