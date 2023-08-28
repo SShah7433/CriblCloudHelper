@@ -11,12 +11,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: browser-actions/setup-chrome@v1
-      - run: echo ${PRIVATE_KEY} | base64 -d > /home/runner/work/CriblCloudTabRenamer/CriblCloudTabRenamer.key
+      - run: echo ${PRIVATE_KEY} | base64 -d > ${GITHUB_WORSPACE}/CriblCloudTabRenamer.key
         env:
           PRIVATE_KEY: ${{ secrets.CRIBLCLOUDTABRENAMER_PRIVKEY }}
-      - run: chrome --pack-extension=$GITHUB_WORKSPACE --pack-extension-key=/home/runner/work/CriblCloudTabRenamer/CriblCloudTabRenamer.key
+      - run: chrome --pack-extension=${GITHUB_WORKSPACE}/src --pack-extension-key=${GITHUB_WORKSPACE}/CriblCloudTabRenamer.key
+      - run: mv ${GITHUB_WORKSPACE}/../CriblCloudTabRenamer.crx ${GITHUB_WORKSPACE}/CriblCloudTabRenamer.crx
       - uses: actions/upload-artifact@v3
         with:
           name: CriblCloudTabRenamer.crx
-          path: /home/runner/work/CriblCloudTabRenamer/CriblCloudTabRenamer.crx
+          path: ${GITHUB_WORKSPACE}/CriblCloudTabRenamer.crx
 
