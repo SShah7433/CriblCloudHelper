@@ -8,10 +8,18 @@ function storeOrganizationInformation(message) {
 
     // If array has content, update storage
     if (organizationInfo.length > 0) {
-        chrome.storage.local.set({ organizationMapping: organizationInfo }).then(() => {
-            console.info("Successfully stored organization info")
-            console.info({ organizationMapping: organizationInfo });
-        });
+        if (typeof browser !== "undefined") {
+            browser.storage.local.set({ organizationMapping: organizationInfo }).then(() => {
+                console.info("Successfully stored organization info");
+                console.info({ organizationMapping: organizationInfo });
+            });
+        } else {
+            chrome.storage.local.set({ organizationMapping: organizationInfo }).then(() => {
+                console.info("Successfully stored organization info");
+                console.info({ organizationMapping: organizationInfo });
+            });
+        }
+
     }
 }
 
@@ -45,20 +53,33 @@ function tabUpdatedListener() {
             return;
         }
 
-        // Get name from storage and set document title
-        chrome.storage.local.get(["organizationMapping"]).then((result) => {
+        function findOrganizationName(allOrganizationInfo) {
             try {
-                const orgInformation = result["organizationMapping"].find((organization) => organization["organizationId"] == orgIdMatch[1]);
-                if (/https:\/\/.*?cribl\.cloud.*/.test(activeTab.url)) {
-
-                    console.info(`Renaming tab. Current Title: "${activeTab.title}"; New Title: "Cribl Cloud - ${orgInformation["organizationName"]}"`)
-
-                    // lastError call to prevent error regarding tab not listening
-                    chrome.tabs.sendMessage(activeTab.id, `Cribl Cloud - ${orgInformation["organizationName"]}`, () => chrome.runtime.lastError)
-                }
+                const orgInformation = allOrganizationInfo["organizationMapping"].find((organization) => organization["organizationId"] == orgIdMatch[1]);
+                return orgInformation;
             } catch (e) {
                 console.info(`Org ID Not Found: ${orgIdMatch} for URL: ${activeTab.url}`)
+                return;
             }
-        });
+        }
+
+        function renameTab(organizationInfo) {
+            if (/https:\/\/.*?cribl\.cloud.*/.test(activeTab.url)) {
+                console.info(`Renaming tab. Current Title: "${activeTab.title}"; New Title: "Cribl Cloud - ${organizationInfo["organizationName"]}"`)
+                // lastError call to prevent error regarding tab not listening
+                chrome.tabs.sendMessage(activeTab.id, `Cribl Cloud - ${organizationInfo["organizationName"]}`, () => chrome.runtime.lastError);
+            }
+        }
+
+        // Get name from storage and set document title
+        if (typeof browser !== "undefined") {
+            browser.storage.local.get(["organizationMapping"]).then((result) => {
+                renameTab(findOrganizationName(result));
+            });
+        } else {
+            chrome.storage.local.get(["organizationMapping"]).then((result) => {
+                renameTab(findOrganizationName(result));
+            });
+        }
     });
 }

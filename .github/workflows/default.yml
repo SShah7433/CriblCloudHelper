@@ -6,10 +6,13 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build_chrome:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - run: |
+          mv src/manifest_v3.json src/manifest.json
+          rm src/manifest_v2.json
       - uses: browser-actions/setup-chrome@v1
       - run: echo ${PRIVATE_KEY} | base64 -d > /home/runner/work/CriblCloudTabRenamer/CriblCloudTabRenamer.key
         env:
