@@ -24,4 +24,33 @@ jobs:
         with:
           name: CriblCloudTabRenamer.crx
           path: CriblCloudTabRenamer.crx
-
+  dev_package_chrome:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          mv src/manifest_v3.json src/manifest.json
+          rm src/manifest_v2.json
+        name: select manifest
+      - run: |
+          mv src/ CriblCloudTabRenamer/
+          tar zcvf criblcloudtabrenamer.tgz CriblCloudTabRenamer/images CriblCloudTabRenamer/scripts CriblCloudTabRenamer/manifest.json
+      - uses: actions/upload-artifact@v3
+        with:
+          name: criblcloudtabrenamer_chrome.tgz
+          path: criblcloudtabrenamer.tgz
+  dev_package_firefox:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          mv src/manifest_v2.json src/manifest.json
+          rm src/manifest_v3.json
+        name: select manifest
+      - run: |
+          mv src/ CriblCloudTabRenamer/
+          tar zcvf criblcloudtabrenamer.tgz CriblCloudTabRenamer/images CriblCloudTabRenamer/scripts CriblCloudTabRenamer/manifest.json
+      - uses: actions/upload-artifact@v3
+        with:
+          name: criblcloudtabrenamer_firefox.tgz
+          path: criblcloudtabrenamer.tgz
