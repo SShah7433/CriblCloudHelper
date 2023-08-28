@@ -6,7 +6,7 @@ This Google Chrome extension will update tab names with the Alias shown in the o
 - Update tab names to show aliases as defined in Cribl Cloud console
 
 ## Functionality
-- On load of portal.cribl.cloud, a list of instance IDs and Names will be stored in the browsers local storage. When instanecs are opened, the tab name (`document.title`) will be updated to `Cribl Cloud - <Name>`
+- On load of portal.cribl.cloud, a list of instance IDs and Names will be stored in the browsers local storage. When instances are opened, the tab name (`document.title`) will be updated to `Cribl Cloud - <Name>`
 
 ## Installation
 
@@ -20,7 +20,7 @@ Chrome does not allow packaged extensions that are not published to the Chrome W
 
 ### Firefox
 
-1. Download the artifacts for Google Chrome from the GitHub Actions workflow. Extract the zip file.
+1. Download the artifacts for Firefox from the GitHub Actions workflow. Extract the zip file.
 2. Open the Add-On Manager, click the gear, and select **Debug Add-ons**.
 3. Click **Load Temporary Add-on...**.
 4. Select the `manifest.json` from the folder extracted in step 1.
