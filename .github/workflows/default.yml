@@ -19,5 +19,5 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: CriblCloudTabRenamer.crx
-          path: /home/runner/work/CriblCloudTabRenamer/CriblCloudTabRenamer.crx
+          path: src.crx
 
