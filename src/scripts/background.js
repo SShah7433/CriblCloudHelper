@@ -53,7 +53,7 @@ function tabUpdatedListener() {
             return;
         }
 
-        function findOrganizationName(allOrganizationInfo) {
+        function findOrganizationInfo(allOrganizationInfo) {
             try {
                 const orgInformation = allOrganizationInfo["organizationMapping"].find((organization) => organization["organizationId"] == orgIdMatch[1]);
                 return orgInformation;
@@ -74,11 +74,17 @@ function tabUpdatedListener() {
         // Get name from storage and set document title
         if (typeof browser !== "undefined") {
             browser.storage.local.get(["organizationMapping"]).then((result) => {
-                renameTab(findOrganizationName(result));
+                var organizationInfo = findOrganizationInfo(result);
+                if (organizationInfo) {
+                    renameTab();
+                }
             });
         } else {
             chrome.storage.local.get(["organizationMapping"]).then((result) => {
-                renameTab(findOrganizationName(result));
+                var organizationInfo = findOrganizationInfo(result);
+                if (organizationInfo) {
+                    renameTab();
+                }
             });
         }
     });
