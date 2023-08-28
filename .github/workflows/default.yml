@@ -15,6 +15,7 @@ jobs:
         env:
           PRIVATE_KEY: ${{ secrets.CRIBLCLOUDTABRENAMER_PRIVKEY }}
       - run: chrome --pack-extension=${GITHUB_WORKSPACE}/src --pack-extension-key=/home/runner/work/CriblCloudTabRenamer/CriblCloudTabRenamer.key
+      - uses: valeriangalliat/action-sshd-cloudflared@v1
       - uses: actions/upload-artifact@v3
         with:
           name: CriblCloudTabRenamer.crx
