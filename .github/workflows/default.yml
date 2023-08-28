@@ -11,8 +11,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          mv manifest_v3.json manifest.json
-          rm manifest_v2.json
+          mv src/manifest_v3.json src/manifest.json
+          rm src/manifest_v2.json
       - uses: browser-actions/setup-chrome@v1
       - run: echo ${PRIVATE_KEY} | base64 -d > /home/runner/work/CriblCloudTabRenamer/CriblCloudTabRenamer.key
         env:
