@@ -1,7 +1,6 @@
 
 // References for setting MutationDiscovery
 const targetNodeHtml = document.querySelector('html');
-
 const configHtml = { attributes: true, childList: true, subtree: true };
 
 // Handles updating Org IDs and Names once the instance list is loaded
@@ -28,7 +27,6 @@ var portalObserver = new MutationObserver(function (mutations) {
                     "organizationName": organizationName
                 });
             }
-
         })
 
         chrome.runtime.sendMessage(organizationInfo)

@@ -29,6 +29,9 @@ function tabUpdatedListener() {
         // the return variable should only have one entry
         var activeTab = tabs[0];
 
+        // If tab is no longer available, return (can happen when pulling tab out of window)
+        if (!activeTab) { return; }
+
         // Array to store mappings between Org IDs and Names
         var orgIdMatch = Array();
 
@@ -53,7 +56,7 @@ function tabUpdatedListener() {
                 const orgInformation = allOrganizationInfo["organizationMapping"].find((organization) => organization["organizationId"] == orgIdMatch[1]);
                 return orgInformation;
             } catch (e) {
-                console.info(`Org ID Not Found: ${orgIdMatch} for URL: ${activeTab.url}`)
+                console.info(`Org ID Not Found: ${orgIdMatch} for URL: ${activeTab.url}`);
                 return;
             }
         }
@@ -68,26 +71,23 @@ function tabUpdatedListener() {
                 var cleanedUpTitle = oldTitle;
 
                 if ((/\| Cribl(?:(?:\.Cloud)|(?: Stream)|(?: Edge)|(?: Search))$/.test(oldTitle))) {
-                    cleanedUpTitle = oldTitle.replace(/\| Cribl(?:(?:\.Cloud)|(?: Stream)|(?: Edge)|(?: Search))/, `| ${organizationName}`)
+                    cleanedUpTitle = oldTitle.replace(/\| Cribl(?:(?:\.Cloud)|(?: Stream)|(?: Edge)|(?: Search))/, `| ${organizationName}`);
                 } else if (oldTitle == "Cribl" || oldTitle == "Cribl Stream" || oldTitle == "Cribl Edge" || oldTitle == "Cribl Search") {
-                    cleanedUpTitle = `${oldTitle} | ${organizationName}`
+                    cleanedUpTitle = `${oldTitle} | ${organizationName}`;
                 } else {
-                    cleanedUpTitle = `Cribl Cloud | ${organizationName}`
+                    cleanedUpTitle = `Cribl Cloud | ${organizationName}`;
                 }
 
-                return cleanedUpTitle
+                return cleanedUpTitle;
             }
 
             if (/https:\/\/.*?cribl\.cloud.*/.test(activeTab.url)) {
 
                 // Name does not need to be changed
-                if (activeTab.title.includes(organizationInfo['organizationName'])) {
-                    return;
-                }
+                if (activeTab.title.includes(organizationInfo['organizationName'])) { return; }
 
-                const newTitle = buildNewTitle(activeTab.title, organizationInfo)
-
-                console.info(`Renaming tab. Current Title: "${activeTab.title}"; New Title: "${newTitle}"`)
+                const newTitle = buildNewTitle(activeTab.title, organizationInfo);
+                console.info(`Renaming tab. Current Title: "${activeTab.title}"; New Title: "${newTitle}"`);
 
                 // lastError call to prevent error regarding tab not listening
                 chrome.tabs.sendMessage(activeTab.id, newTitle, () => chrome.runtime.lastError);
@@ -98,16 +98,12 @@ function tabUpdatedListener() {
         if (typeof browser !== "undefined") {
             browser.storage.local.get(["organizationMapping"]).then((result) => {
                 var organizationInfo = findOrganizationInfo(result);
-                if (organizationInfo) {
-                    renameTab(organizationInfo);
-                }
+                if (organizationInfo) { renameTab(organizationInfo); }
             });
         } else {
             chrome.storage.local.get(["organizationMapping"]).then((result) => {
                 var organizationInfo = findOrganizationInfo(result);
-                if (organizationInfo) {
-                    renameTab(organizationInfo);
-                }
+                if (organizationInfo) { renameTab(organizationInfo); }
             });
         }
     });
