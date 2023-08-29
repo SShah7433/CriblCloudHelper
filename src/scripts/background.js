@@ -76,14 +76,14 @@ function tabUpdatedListener() {
             browser.storage.local.get(["organizationMapping"]).then((result) => {
                 var organizationInfo = findOrganizationInfo(result);
                 if (organizationInfo) {
-                    renameTab();
+                    renameTab(organizationInfo);
                 }
             });
         } else {
             chrome.storage.local.get(["organizationMapping"]).then((result) => {
                 var organizationInfo = findOrganizationInfo(result);
                 if (organizationInfo) {
-                    renameTab();
+                    renameTab(organizationInfo);
                 }
             });
         }
