@@ -72,7 +72,7 @@ function tabUpdatedListener() {
                 } else if (oldTitle == "Cribl" || oldTitle == "Cribl Stream" || oldTitle == "Cribl Edge" || oldTitle == "Cribl Search") {
                     cleanedUpTitle = `${oldTitle} | ${organizationName}`
                 } else {
-                    cleanedUpTitle = `Cribl Cloud - ${organizationName}`
+                    cleanedUpTitle = `Cribl Cloud | ${organizationName}`
                 }
 
                 return cleanedUpTitle
