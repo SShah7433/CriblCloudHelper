@@ -29,11 +29,6 @@ function tabUpdatedListener() {
         // the return variable should only have one entry
         var activeTab = tabs[0];
 
-        // Don't run if the tab already has the right name
-        if (/^Cribl Cloud - /.test(activeTab.title)) {
-            return;
-        }
-
         // Array to store mappings between Org IDs and Names
         var orgIdMatch = Array();
 
@@ -64,10 +59,39 @@ function tabUpdatedListener() {
         }
 
         function renameTab(organizationInfo) {
+
+            function buildNewTitle(oldTitle, organizationInfo) {
+
+                const organizationId = organizationInfo["organizationId"];
+                const organizationName = organizationInfo["organizationName"];
+
+                var cleanedUpTitle = oldTitle;
+
+                if ((/\| Cribl(?:(?:\.Cloud)|(?: Stream)|(?: Edge)|(?: Search))$/.test(oldTitle))) {
+                    cleanedUpTitle = oldTitle.replace(/\| Cribl(?:(?:\.Cloud)|(?: Stream)|(?: Edge)|(?: Search))/, `| ${organizationName}`)
+                } else if (oldTitle == "Cribl" || oldTitle == "Cribl Stream" || oldTitle == "Cribl Edge" || oldTitle == "Cribl Search") {
+                    cleanedUpTitle = `${oldTitle} | ${organizationName}`
+                } else {
+                    cleanedUpTitle = `Cribl Cloud - ${organizationName}`
+                }
+
+                return cleanedUpTitle
+            }
+
+
             if (/https:\/\/.*?cribl\.cloud.*/.test(activeTab.url)) {
-                console.info(`Renaming tab. Current Title: "${activeTab.title}"; New Title: "Cribl Cloud - ${organizationInfo["organizationName"]}"`)
+
+                // Name does not need to be changed
+                if (activeTab.title.includes(organizationInfo['organizationName'])) {
+                    return;
+                }
+
+                const newTitle = buildNewTitle(activeTab.title, organizationInfo)
+
+                console.info(`Renaming tab. Current Title: "${activeTab.title}"; New Title: "${newTitle}"`)
+
                 // lastError call to prevent error regarding tab not listening
-                chrome.tabs.sendMessage(activeTab.id, `Cribl Cloud - ${organizationInfo["organizationName"]}`, () => chrome.runtime.lastError);
+                chrome.tabs.sendMessage(activeTab.id, newTitle, () => chrome.runtime.lastError);
             }
         }
 
