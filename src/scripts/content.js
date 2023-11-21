@@ -14,10 +14,10 @@ var portalObserver = new MutationObserver(function (mutations) {
         var organizationInfo = [];
 
         organizations.forEach(organization => {
-            const organizationName = organization.querySelector("div > div.ant-col.organizationbox-module--title--LcgJH > h2").textContent;
+            const organizationName = organization.querySelector("[data-testid='organization-name']").textContent;
 
-            const organiationIdString = organization.querySelector("div > div.ant-col.organizationbox-module--title--LcgJH > span").textContent;
-            const organizationIdMatch = organiationIdString.match(/ID: (.*)/)
+            const organizationIdString = organization.querySelector("[data-testid='organization-id']").textContent;
+            const organizationIdMatch = organizationIdString.match(/ID: (.*)/)
             const organizationId = organizationIdMatch[1];
 
             // If ID and Name are found, add to array.
@@ -43,10 +43,10 @@ function listenForMessages() {
 }
 
 // Handle different Cribl Cloud urls
-if (/^(?:main-(\S+?))|(?:manage)|(?:[^\.]+\-[^\.]+)\.cribl\.cloud/.test(location.hostname)) {
-    listenForMessages()
-} else if (/portal\.cribl\.cloud/.test(location.hostname)) {
+if (location.hostname === "manage.cribl.cloud" && location.pathname==="/organizations") {
     portalObserver.observe(targetNodeHtml, configHtml);
+} else if (/^(?:main-(\S+?))|(?:manage)|(?:[^\.]+\-[^\.]+)\.cribl\.cloud/.test(location.hostname)) {
+    listenForMessages()
 } else if (/\.cribl\.cloud/.test(location.hostname) && ["/", "/logout"].indexOf(location.pathname) == -1) {
     listenForMessages()
 }
