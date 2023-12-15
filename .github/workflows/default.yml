@@ -18,7 +18,7 @@ jobs:
         env:
           PRIVATE_KEY: ${{ secrets.CRIBLCLOUDTABRENAMER_PRIVKEY }}
       - run: |
-          chrome --headless --pack-extension=${GITHUB_WORKSPACE}/src --pack-extension-key=/home/runner/work/CriblCloudTabRenamer/CriblCloudTabRenamer.key
+          chrome --headless=new --pack-extension=${GITHUB_WORKSPACE}/src --pack-extension-key=/home/runner/work/CriblCloudTabRenamer/CriblCloudTabRenamer.key
           mv src.crx CriblCloudTabRenamer.crx
       - uses: actions/upload-artifact@v3
         with:
